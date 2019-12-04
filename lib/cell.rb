@@ -3,14 +3,14 @@ attr_reader :coordinate,
             :ship,
             :empty,
             :fired_upon
-            :render
+            # :render
 
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = ship
     @empty = true
     @fired_upon = false
-    @render = "."
+    # @render = "."
   end
 
   def empty?
@@ -40,12 +40,10 @@ attr_reader :coordinate,
       "."
     elsif @empty == true
       "M"
-    elsif @ship.hit
-      "H"
-    else
+    elsif @ship.sunk? == true
       "X"
+    else
+      "H"
     end
-
   end
-
 end
