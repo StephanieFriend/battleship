@@ -13,7 +13,7 @@ class Ship
     if @health == 0
       @sunk = true
     else
-      @sunk = false 
+      @sunk = false
     end
   end
 
