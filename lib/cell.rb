@@ -34,8 +34,9 @@ attr_reader :coordinate,
   end
 
   def render(view = false)
-
-    if @fired_upon == false
+    if view == true && @empty == false
+      "S"
+    elsif @fired_upon == false
       "."
     elsif @empty == true
       "M"
