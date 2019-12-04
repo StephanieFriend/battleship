@@ -80,4 +80,11 @@ class CellTest < Minitest::Test
     assert_equal ".", cell_2.render
     assert_equal "S", cell_2.render(true)
   end
+
+  def test_when_render_true_on_empty_cell
+    cell_2 = Cell.new("C3")
+
+    assert_equal ".", cell_2.render
+    assert_equal ".", cell_2.render(true)
+  end
 end
