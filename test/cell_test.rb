@@ -87,4 +87,31 @@ class CellTest < Minitest::Test
     assert_equal ".", cell_2.render
     assert_equal ".", cell_2.render(true)
   end
+
+  def test_board_will_render_h_when_fired_upon
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
+
+    assert_equal "H", cell_2.render
+  end
+
+  def test_board_will_render_x_when_sunk_is_true
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
+
+    refute cruiser.sunk?
+
+    cruiser.hit
+    cruiser.hit
+
+    assert cruiser.sunk?
+    assert_equal "X", cell_2.render
+  end
+    
 end
