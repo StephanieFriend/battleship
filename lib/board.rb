@@ -22,23 +22,21 @@ attr_reader :cells
   end
 
   def valid_coordinate?(coordinate)
-    return true if @cells.include?(coordinate)
-    false
+    @cells.include?(coordinate)
   end
 
   def valid_placement?(ship, coordinates)
-    return true if ship.length == coordinates.length
+    ship.length == coordinates.length
     # && coordinates.empty?
-    false
   end
 
   def vertical_placement?(coordinates)
     #array of letter order
-    @cells.range("A".."D").to_a
     #bring numbers and letters method together to
     #test if they are valid
     #maybe see if we can test if they are also
     #inside the array of letters with only letters method
+    vertical_numbers?(coordinates) && vertical_letters?(coordinates)
   end
 
   def vertical_numbers?(coordinates)
@@ -49,7 +47,17 @@ attr_reader :cells
     numbers.uniq.length == 1
   end
 
-  def verical_letters?(coordinates)
+  def vertical_letters?(coordinates)
     #verifying that the letters are consecutive
+    new_range_array = []
+    letters_range = ("A".."D").to_a
+    letters = coordinates.map do |coordinate|
+      coordinate.chars.first
+    end
+    letters_range.each_cons(coordinates.length) do |letter_range|
+      new_range_array << letter_range
+    end
+    new_range_array.include?(letters)
   end
+
 end
