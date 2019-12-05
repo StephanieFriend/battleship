@@ -28,6 +28,28 @@ attr_reader :cells
 
   def valid_placement?(ship, coordinates)
     return true if ship.length == coordinates.length
-    false 
+    # && coordinates.empty?
+    false
+  end
+
+  def vertical_placement?(coordinates)
+    #array of letter order
+    @cells.range("A".."D").to_a
+    #bring numbers and letters method together to
+    #test if they are valid
+    #maybe see if we can test if they are also
+    #inside the array of letters with only letters method
+  end
+
+  def vertical_numbers?(coordinates)
+    #verifying that all the numbers are the same
+    numbers = coordinates.map do |coordinate|
+      coordinate.chars.last
+    end
+    numbers.uniq.length == 1
+  end
+
+  def verical_letters?(coordinates)
+    #verifying that the letters are consecutive
   end
 end
