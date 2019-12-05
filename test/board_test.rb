@@ -55,14 +55,25 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinates_are_consecutive_horizontally
-    skip
-    assert_equal false, @board.horizontal_placement?(@cruiser, ["A1", "A2", "A4"])
-    assert_equal false, @board.horizontal_placement?(@cruiser, ["A3", "A2", "A1"])
-    assert_equal true, @board.horizontal_placement?(@submarine, ["D2", "D3"])
+    assert_equal false, @board.horizontal_placement?(["A1", "A2", "A4"])
+    assert_equal false, @board.horizontal_placement?(["A3", "A2", "A1"])
+    assert_equal true, @board.horizontal_placement?(["D2", "D3"])
   end
 
   def test_horizontal_letters_are_the_same
     assert_equal true, @board.horizontal_letters?(["A1", "A2", "A3"])
     assert_equal false, @board.horizontal_letters?(["A1", "B2", "A3"])
+  end
+
+  def test_horizontal_numbers_are_consecutive
+    assert_equal true, @board.horizontal_numbers?(["A1", "A2", "A3"])
+    assert_equal false, @board.horizontal_numbers?(["A1", "B4", "A3"])
+  end
+
+  def test_coordinates_cant_be_diagonal
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
+    assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
+    assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
+    assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
   end
 end
