@@ -17,7 +17,9 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_has_cells
+
     assert_instance_of Hash, @board.cells
+    assert_instance_of Cell, @board.cells["A1"]
     assert_equal 16, @board.cells.count
   end
 
@@ -37,7 +39,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinates_are_consecutive_vertically
-    skip
     assert_equal false, @board.vertical_placement?(["A1", "C1"])
     assert_equal true, @board.vertical_placement?(["A1", "B1", "C1"])
     assert_equal false, @board.vertical_placement?(["C1", "B1"])
@@ -46,6 +47,12 @@ class BoardTest < Minitest::Test
   def test_vertical_numbers_are_the_same
     assert_equal true, @board.vertical_numbers?(["A1", "B1", "C1"])
     assert_equal false, @board.vertical_numbers?(["A1", "B2", "C1"])
+  end
+
+  def test_vertical_letters_are_consecutive
+    assert_equal true, @board.vertical_letters?(["A1", "B1", "C1"])
+    assert_equal false, @board.vertical_letters?(["A1", "D1", "C1"])
+
   end
 
   def test_coordinates_are_consecutive_horzontally
