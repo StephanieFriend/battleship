@@ -52,13 +52,17 @@ class BoardTest < Minitest::Test
   def test_vertical_letters_are_consecutive
     assert_equal true, @board.vertical_letters?(["A1", "B1", "C1"])
     assert_equal false, @board.vertical_letters?(["A1", "D1", "C1"])
-
   end
 
-  def test_coordinates_are_consecutive_horzontally
+  def test_coordinates_are_consecutive_horizontally
     skip
-    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
-    assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
-    assert_equal true, @board.valid_placement?(@submarine, ["D2", "D3"])
+    assert_equal false, @board.horizontal_placement?(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @board.horizontal_placement?(@cruiser, ["A3", "A2", "A1"])
+    assert_equal true, @board.horizontal_placement?(@submarine, ["D2", "D3"])
+  end
+
+  def test_horizontal_letters_are_the_same
+    assert_equal true, @board.horizontal_letters?(["A1", "A2", "A3"])
+    assert_equal false, @board.horizontal_letters?(["A1", "B2", "A3"])
   end
 end
