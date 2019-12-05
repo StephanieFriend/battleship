@@ -60,4 +60,11 @@ attr_reader :cells
     new_range_array.include?(letters)
   end
 
+  def horizontal_letters?(coordinates)
+    letters = coordinates.map do |coordinate|
+      coordinate.chars.first
+    end
+    letters.uniq.length == 1 
+  end
+
 end
