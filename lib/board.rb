@@ -95,5 +95,12 @@ attr_reader :cells
     new_range_array.include?(numbers)
   end
 
+  def render(view = false)
+    "  1 2 3 4 \n" +
+    "A #{@cells["A1"].render(view)} #{@cells["A2"].render(view)} #{@cells["A3"].render(view)} #{@cells["A4"].render(view)} \n" +
+    "B #{@cells["B1"].render(view)} #{@cells["B2"].render(view)} #{@cells["B3"].render(view)} #{@cells["B4"].render(view)} \n" +
+    "C #{@cells["C1"].render(view)} #{@cells["C2"].render(view)} #{@cells["C3"].render(view)} #{@cells["C4"].render(view)} \n" +
+    "D #{@cells["D1"].render(view)} #{@cells["D2"].render(view)} #{@cells["D3"].render(view)} #{@cells["D4"].render(view)} \n"
 
+  end
 end
