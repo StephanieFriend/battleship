@@ -7,19 +7,18 @@ attr_reader :coordinate,
 
   def initialize(coordinate)
     @coordinate = coordinate
-    @ship = ship
+    @ship = nil 
     @fired_upon = false
     # @render = "."
   end
 
   def empty?
     return false if place_ship(ship)
-    true 
+    true
   end
 
   def place_ship(ship)
     @ship = ship
-
   end
 
   def fired_upon?
