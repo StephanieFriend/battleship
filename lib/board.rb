@@ -22,11 +22,31 @@ attr_reader :cells
   end
 
   def valid_coordinate?(coordinate)
-    @cells.include?(coordinate)
+    @cells.keys.include?(coordinate)
   end
 
   def valid_placement?(ship, coordinates)
-    ship.length == coordinates.length && (vertical_placement?(coordinates) || horizontal_placement?(coordinates))
+    valid = coordinates.map do |coordinate|
+      valid_coordinate?(coordinate)
+    end
+    empty = coordinates.map do |coordinate|
+      @cells[coordinate].empty?
+    end
+    ship_length?(ship, coordinates) && (vertical_placement?(coordinates) ^ horizontal_placement?(coordinates)) && valid.all? && empty.all?
+  end
+
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      x = coordinates.map do |coordinate|
+        @cells[coordinate].place_ship(ship)
+      # @cells[coordinate].empty = false
+      end
+    end
+    x
+  end
+
+  def ship_length?(ship, coordinates)
+    ship.length == coordinates.length
   end
 
   def vertical_placement?(coordinates)
@@ -74,5 +94,6 @@ attr_reader :cells
     end
     new_range_array.include?(numbers)
   end
+
 
 end

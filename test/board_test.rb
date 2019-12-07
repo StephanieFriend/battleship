@@ -32,10 +32,10 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_can_validate_length_of_ship_placement
-    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
-    assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
-    assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
-    assert_equal true, @board.valid_placement?(@submarine, ["D2", "D3"])
+    assert_equal false, @board.ship_length?(@cruiser, ["A1", "A2"])
+    assert_equal false, @board.ship_length?(@submarine, ["A2", "A3", "A4"])
+    assert_equal true, @board.ship_length?(@cruiser, ["B1", "C1", "D1"])
+    assert_equal true, @board.ship_length?(@submarine, ["D2", "D3"])
   end
 
   def test_coordinates_are_consecutive_vertically
@@ -74,6 +74,47 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
     assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
     assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
-    assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
+  end
+
+  def test_place_ships_horizontally
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    @board.place(@submarine, ["D1", "D2"])
+
+    cell_1 = @board.cells["A1"]
+    cell_2 = @board.cells["A2"]
+    cell_3 = @board.cells["A3"]
+    cell_4 = @board.cells["D1"]
+    cell_5 = @board.cells["D2"]
+
+    assert_equal @cruiser, cell_1.ship
+    assert_equal @cruiser, cell_2.ship
+    assert_equal @cruiser, cell_3.ship
+    assert_equal @submarine, cell_4.ship
+    assert_equal @submarine, cell_5.ship
+    assert_equal true, cell_3.ship == cell_2.ship
+    assert cell_4.ship == cell_5.ship
+  end
+
+  def test_place_ships_vertically
+    @board.place(@cruiser, ["A1", "B1", "C1"])
+    @board.place(@submarine, ["C3", "D3"])
+
+    cell_1 = @board.cells["A1"]
+    cell_2 = @board.cells["B1"]
+    cell_3 = @board.cells["C1"]
+    cell_4 = @board.cells["C3"]
+    cell_5 = @board.cells["D3"]
+
+    assert_equal @cruiser, cell_1.ship
+    assert_equal @cruiser, cell_2.ship
+    assert_equal @cruiser, cell_3.ship
+    assert_equal @submarine, cell_4.ship
+    assert_equal @submarine, cell_5.ship
+  end
+
+  def test_ships_cant_overlap
+    @board.place(@cruiser, ["A1", "B1", "C1"])
+
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "A2"])
   end
 end
