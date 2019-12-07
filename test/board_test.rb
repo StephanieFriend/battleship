@@ -117,4 +117,11 @@ class BoardTest < Minitest::Test
 
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "A2"])
   end
+
+  def test_board_can_render
+    @board.place(@cruiser, ["A1", "B1", "C1"])
+require "pry"; binding.pry
+    assert @board.render
+    # assert board.render(true)
+  end
 end
