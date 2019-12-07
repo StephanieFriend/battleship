@@ -26,7 +26,15 @@ attr_reader :cells
   end
 
   def valid_placement?(ship, coordinates)
-    ship.length == coordinates.length && (vertical_placement?(coordinates) || horizontal_placement?(coordinates))
+    return if coordinates.empty?
+    ship.length == coordinates.length && (vertical_placement?(coordinates) ^ horizontal_placement?(coordinates))
+  end
+
+  def place(ship, coordinates)
+    return false if !valid_placement?(ship, coordinates)
+    coordinates.map do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
   end
 
   def vertical_placement?(coordinates)
@@ -74,5 +82,6 @@ attr_reader :cells
     end
     new_range_array.include?(numbers)
   end
+
 
 end
