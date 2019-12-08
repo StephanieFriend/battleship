@@ -113,5 +113,4 @@ class CellTest < Minitest::Test
     assert cruiser.sunk?
     assert_equal "X", cell_2.render
   end
-    
 end
