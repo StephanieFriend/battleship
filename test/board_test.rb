@@ -120,8 +120,7 @@ class BoardTest < Minitest::Test
 
   def test_board_can_render
     @board.place(@cruiser, ["A1", "B1", "C1"])
-require "pry"; binding.pry
     assert @board.render
-    # assert board.render(true)
+    assert @board.render(true)
   end
 end
