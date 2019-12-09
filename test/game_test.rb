@@ -25,4 +25,11 @@ class GameTest < Minitest::Test
     assert_instance_of Ship, @game.player_cruiser
     assert_instance_of Ship, @game.player_submarine
   end
+
+  def test_welcome_message
+    assert_equal "Welcome to BATTLESHIP \n" "Enter p to play. Enter q to quit.", @game.welcome
+
+  end
+
+
 end
