@@ -14,4 +14,21 @@ class Game
     @player_cruiser = Ship.new("Cruiser", 3)
     @player_submarine = Ship.new("Submarine", 2)
   end
+
+  def opening_message
+    "Welcome to BATTLESHIP \n" +
+    "Enter p to play. Enter q to quit."
+  end
+  def welcome
+    game_start = gets.chomp.downcase
+      if game_start == "p"
+        "Let's Play!"
+        #starting game
+      elsif game_start ==  "q"
+        "OK BYE"
+      else
+        puts "Invalid input, please choose p to play or q to quit"
+        welcome
+      end
+  end
 end
