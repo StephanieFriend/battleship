@@ -45,5 +45,20 @@ class Game
       @computer_board.place(ship, coordinates)
     end
 
-    
+    def player_instructions
+      "-------------------------------------------- \n" +
+      "I have laid out my ships on the grid. \n" +
+      "You now need to lay out your two ships. \n" +
+      "The Cruiser is three units long and the Submarine is two units long."
+
+
+      "Enter the squares for the Cruiser (3 spaces):"
+      cruiser_response = gets.chomp
+    end
+
+    def player_setup
+      @player_board.render(true)
+    end
+
+
 end
