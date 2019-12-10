@@ -5,10 +5,6 @@ require_relative '../lib/game'
 
 game = Game.new
 
-puts game.opening_message
-
-puts game.welcome
-
-puts game.player_instructions
-
-puts game.player_setup
+game.opening_message
+game.welcome
+game.player_place_cruiser
