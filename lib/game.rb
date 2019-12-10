@@ -50,25 +50,37 @@ class Game
       "I have laid out my ships on the grid. \n" +
       "You now need to lay out your two ships. \n" +
       "The Cruiser is three units long and the Submarine is two units long."
+      puts @player_board.render(true)
+      player_place_cruiser
+      player_place_submarine
     end
 
     def player_place_cruiser
-      puts @player_board.render(true)
-
       puts "Enter the squares for the Cruiser (3 spaces):"
-        puts cruiser_response = (gets.chomp.upcase).split(",")
+        cruiser_response = gets.chomp.upcase.split
 
       if @player_board.valid_placement?(@player_cruiser, cruiser_response)
-        @player_board.place(@player_cruiser,cruiser_response)
+        @player_board.place(@player_cruiser, cruiser_response)
+        puts @player_board.render(true)
       else
         puts "Those are invalid coordinates. Please try again:"
         player_place_cruiser
       end
     end
 
-    # def player_place_submarine
-    #
-    # end
+    def player_place_submarine
+      puts "Enter the squares for the Submarine (2 spaces):"
+        submarine_response = gets.chomp.upcase.split
+
+      if @player_board.valid_placement?(@player_submarine, submarine_response)
+        @player_board.place(@player_submarine, submarine_response)
+      else
+        puts "Those are invalid coordinates. Please try again:"
+        player_place_submarine
+      end
+    end
+
+    
 
 
 
