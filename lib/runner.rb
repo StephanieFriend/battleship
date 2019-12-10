@@ -11,3 +11,4 @@ game.opening_message
 game.computer_setup(cruiser)
 game.computer_setup(submarine)
 game.welcome
+game.start_game
