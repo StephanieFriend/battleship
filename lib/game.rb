@@ -7,10 +7,10 @@ class Game
               :player_submarine
 
   def initialize
-    @computer_board = nil
+    @computer_board = Board.new
     @computer_cruiser = Ship.new("Cruiser", 3)
     @computer_submarine = Ship.new("Submarine", 2)
-    @player_board = nil
+    @player_board = Board.new
     @player_cruiser = Ship.new("Cruiser", 3)
     @player_submarine = Ship.new("Submarine", 2)
   end
@@ -19,6 +19,7 @@ class Game
     "Welcome to BATTLESHIP \n" +
     "Enter p to play. Enter q to quit."
   end
+
   def welcome
     game_start = gets.chomp.downcase
       if game_start == "p"
@@ -31,4 +32,17 @@ class Game
         welcome
       end
   end
+
+    def computer_setup(ship)
+      #until computer guess is valid do
+      coordinates = []
+      loop do
+        cells = @computer_board.cells.values.sample(ship.length)
+        coordinates = cells.map do |cell|
+          cell.coordinate
+        end
+        break if  @computer_board.valid_placement?(ship, coordinates)
+      end
+      coordinates
+    end
 end
