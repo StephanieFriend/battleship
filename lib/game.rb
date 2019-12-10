@@ -34,7 +34,6 @@ class Game
   end
 
     def computer_setup(ship)
-      #until computer guess is valid do
       coordinates = []
       loop do
         cells = @computer_board.cells.values.sample(ship.length)
@@ -43,6 +42,8 @@ class Game
         end
         break if  @computer_board.valid_placement?(ship, coordinates)
       end
-      coordinates
+      @computer_board.place(ship, coordinates)
     end
+
+    
 end
