@@ -29,10 +29,9 @@ class GameTest < Minitest::Test
 
   def test_welcome_message
     assert_equal "Welcome to BATTLESHIP \n" "Enter p to play. Enter q to quit.", @game.opening_message
-
   end
 
-  def test_place_computer_ships
+  def test_generate_cells_in_computer_setup
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
@@ -40,5 +39,6 @@ class GameTest < Minitest::Test
     assert_instance_of Array, @game.computer_setup(submarine)
     assert_equal 3, @game.computer_setup(cruiser).count
     assert_equal 2, @game.computer_setup(submarine).count
+    # assert_equal coordinates.first.empty?, @game.computer_setup(cruiser)
   end
 end
