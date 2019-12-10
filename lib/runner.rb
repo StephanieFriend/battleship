@@ -8,3 +8,7 @@ game = Game.new
 puts game.opening_message
 
 puts game.welcome
+
+puts game.player_instructions
+
+puts game.player_setup
