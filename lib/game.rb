@@ -36,10 +36,10 @@ class Game
     def computer_setup(ship)
       coordinates = []
       loop do
-        cells = @computer_board.cells.values.sample(ship.length)
-        coordinates = cells.map do |cell|
-          cell.coordinate
-        end
+        coordinates = @computer_board.cells.keys.sample(ship.length)
+        # coordinates = cells.map do |cell|
+        #   cell.coordinate
+        # end
         break if  @computer_board.valid_placement?(ship, coordinates)
       end
       @computer_board.place(ship, coordinates)
@@ -80,7 +80,40 @@ class Game
       end
     end
 
-    
+    def start_game
+      loop do
+        render_boards
+        break if game_over?
+      end
+    end
+
+    def render_boards
+      puts "=============COMPUTER BOARD============="
+      puts @computer_board.render
+
+      puts "==============PLAYER BOARD=============="
+      puts @player_board.render(true)
+    end
+
+    def player_take_shot
+      loop do
+        puts "Enter the coordinate for your shot: "
+        player_shot = gets.chomp.upcase
+        break if @computer_board.valid_coordinate?(player_shot) && @computer_board.cells[player_shot].fired_upon?
+        puts "Those are invalid coordinates. Please try again."
+      end
+      @computer_board.cells[player_shot].fire_upon
+    end
+
+    def game_over?
+      true
+    end
+
+    def computer_take_shot
+      
+    end
+
+
 
 
 
