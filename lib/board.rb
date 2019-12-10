@@ -37,12 +37,12 @@ attr_reader :cells
 
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
-      x = coordinates.map do |coordinate|
+      placement = coordinates.map do |coordinate|
         @cells[coordinate].place_ship(ship)
       # @cells[coordinate].empty = false
       end
     end
-    x
+    placement 
   end
 
   def ship_length?(ship, coordinates)
@@ -101,6 +101,5 @@ attr_reader :cells
     "B #{@cells["B1"].render(view)} #{@cells["B2"].render(view)} #{@cells["B3"].render(view)} #{@cells["B4"].render(view)} \n" +
     "C #{@cells["C1"].render(view)} #{@cells["C2"].render(view)} #{@cells["C3"].render(view)} #{@cells["C4"].render(view)} \n" +
     "D #{@cells["D1"].render(view)} #{@cells["D2"].render(view)} #{@cells["D3"].render(view)} #{@cells["D4"].render(view)} \n"
-
   end
 end

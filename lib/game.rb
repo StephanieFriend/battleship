@@ -16,17 +16,17 @@ class Game
   end
 
   def opening_message
-    "Welcome to BATTLESHIP \n" +
+    puts "Welcome to BATTLESHIP \n" +
     "Enter p to play. Enter q to quit."
   end
 
   def welcome
     game_start = gets.chomp.downcase
       if game_start == "p"
-        "Let's Play!"
-        #starting game
+        puts "Let's Play!"
+        player_instructions
       elsif game_start ==  "q"
-        "OK BYE"
+        puts "OK BYE"
       else
         puts "Invalid input, please choose p to play or q to quit"
         welcome
@@ -34,7 +34,6 @@ class Game
   end
 
     def computer_setup(ship)
-      #until computer guess is valid do
       coordinates = []
       loop do
         cells = @computer_board.cells.values.sample(ship.length)
@@ -43,6 +42,49 @@ class Game
         end
         break if  @computer_board.valid_placement?(ship, coordinates)
       end
-      coordinates
+      @computer_board.place(ship, coordinates)
     end
+
+    def player_instructions
+      puts "-------------------------------------------- \n" +
+      "I have laid out my ships on the grid. \n" +
+      "You now need to lay out your two ships. \n" +
+      "The Cruiser is three units long and the Submarine is two units long."
+      puts @player_board.render(true)
+      player_place_cruiser
+      player_place_submarine
+    end
+
+    def player_place_cruiser
+      puts "Enter the squares for the Cruiser (3 spaces):"
+        cruiser_response = gets.chomp.upcase.split
+
+      if @player_board.valid_placement?(@player_cruiser, cruiser_response)
+        @player_board.place(@player_cruiser, cruiser_response)
+        puts @player_board.render(true)
+      else
+        puts "Those are invalid coordinates. Please try again:"
+        player_place_cruiser
+      end
+    end
+
+    def player_place_submarine
+      puts "Enter the squares for the Submarine (2 spaces):"
+        submarine_response = gets.chomp.upcase.split
+
+      if @player_board.valid_placement?(@player_submarine, submarine_response)
+        @player_board.place(@player_submarine, submarine_response)
+      else
+        puts "Those are invalid coordinates. Please try again:"
+        player_place_submarine
+      end
+    end
+
+    
+
+
+
+
+
+
 end
