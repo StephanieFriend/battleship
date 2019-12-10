@@ -16,17 +16,17 @@ class Game
   end
 
   def opening_message
-    "Welcome to BATTLESHIP \n" +
+    puts "Welcome to BATTLESHIP \n" +
     "Enter p to play. Enter q to quit."
   end
 
   def welcome
     game_start = gets.chomp.downcase
       if game_start == "p"
-        "Let's Play!"
-        #starting game
+        puts "Let's Play!"
+        player_instructions
       elsif game_start ==  "q"
-        "OK BYE"
+        puts "OK BYE"
       else
         puts "Invalid input, please choose p to play or q to quit"
         welcome
@@ -46,19 +46,33 @@ class Game
     end
 
     def player_instructions
-      "-------------------------------------------- \n" +
+      puts "-------------------------------------------- \n" +
       "I have laid out my ships on the grid. \n" +
       "You now need to lay out your two ships. \n" +
       "The Cruiser is three units long and the Submarine is two units long."
-
-
-      "Enter the squares for the Cruiser (3 spaces):"
-      cruiser_response = gets.chomp
     end
 
-    def player_setup
-      @player_board.render(true)
+    def player_place_cruiser
+      puts @player_board.render(true)
+
+      puts "Enter the squares for the Cruiser (3 spaces):"
+        puts cruiser_response = (gets.chomp.upcase).split(",")
+
+      if @player_board.valid_placement?(@player_cruiser, cruiser_response)
+        @player_board.place(@player_cruiser,cruiser_response)
+      else
+        puts "Those are invalid coordinates. Please try again:"
+        player_place_cruiser
+      end
     end
+
+    # def player_place_submarine
+    #
+    # end
+
+
+
+
 
 
 end
