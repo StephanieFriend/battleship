@@ -33,101 +33,100 @@ class Game
         welcome
       end
   end
-
-    def computer_setup(ship)
-      coordinates = []
-      loop do
-        coordinates = @computer_board.cells.keys.sample(ship.length)
-        # coordinates = cells.map do |cell|
-        #   cell.coordinate
-        # end
-        break if  @computer_board.valid_placement?(ship, coordinates)
-      end
-      @computer_board.place(ship, coordinates)
+  
+  def computer_setup(ship)
+    coordinates = []
+    loop do
+      coordinates = @computer_board.cells.keys.sample(ship.length)
+      # coordinates = cells.map do |cell|
+      #   cell.coordinate
+      # end
+      break if  @computer_board.valid_placement?(ship, coordinates)
     end
+    @computer_board.place(ship, coordinates)
+  end
 
-    def player_instructions
-      puts "-------------------------------------------- \n" +
-      "I have laid out my ships on the grid. \n" +
-      "You now need to lay out your two ships. \n" +
-      "The Cruiser is three units long and the Submarine is two units long."
+  def player_instructions
+    puts "-------------------------------------------- \n" +
+    "I have laid out my ships on the grid. \n" +
+    "You now need to lay out your two ships. \n" +
+    "The Cruiser is three units long and the Submarine is two units long."
+    puts @player_board.render(true)
+    player_place_cruiser
+    player_place_submarine
+  end
+
+  def player_place_cruiser
+    puts "Enter the squares for the Cruiser (3 spaces):"
+      cruiser_response = gets.chomp.upcase.split
+
+    if @player_board.valid_placement?(@player_cruiser, cruiser_response)
+      @player_board.place(@player_cruiser, cruiser_response)
       puts @player_board.render(true)
+    else
+      puts "Those are invalid coordinates. Please try again:"
       player_place_cruiser
+    end
+  end
+
+  def player_place_submarine
+    puts "Enter the squares for the Submarine (2 spaces):"
+      submarine_response = gets.chomp.upcase.split
+
+    if @player_board.valid_placement?(@player_submarine, submarine_response)
+      @player_board.place(@player_submarine, submarine_response)
+    else
+      puts "Those are invalid coordinates. Please try again:"
       player_place_submarine
     end
+  end
 
-    def player_place_cruiser
-      puts "Enter the squares for the Cruiser (3 spaces):"
-        cruiser_response = gets.chomp.upcase.split
-
-      if @player_board.valid_placement?(@player_cruiser, cruiser_response)
-        @player_board.place(@player_cruiser, cruiser_response)
-        puts @player_board.render(true)
-      else
-        puts "Those are invalid coordinates. Please try again:"
-        player_place_cruiser
+  def run_game
+    loop do
+      render_boards
+      player_take_shot
+      if game_over?(@computer_cruiser, @computer_submarine)
+        puts "You won!"
+        break
+      end
+      computer_take_shot
+      if game_over?(@player_cruiser, @player_submarine)
+        puts "I won!"
+        break
       end
     end
+    start_game
+  end
 
-    def player_place_submarine
-      puts "Enter the squares for the Submarine (2 spaces):"
-        submarine_response = gets.chomp.upcase.split
+  def render_boards
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
 
-      if @player_board.valid_placement?(@player_submarine, submarine_response)
-        @player_board.place(@player_submarine, submarine_response)
-      else
-        puts "Those are invalid coordinates. Please try again:"
-        player_place_submarine
-      end
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+  end
+
+  def player_take_shot
+    player_shot = nil
+    loop do
+      puts "Enter the coordinate for your shot: "
+      player_shot = gets.chomp.upcase
+      break if @computer_board.valid_coordinate?(player_shot) && !@computer_board.cells[player_shot].fired_upon?
+      puts "Those are invalid coordinates. Please try again."
     end
+    @computer_board.cells[player_shot].fire_upon
+  end
 
-    def run_game
-      loop do
-        render_boards
-        player_take_shot
-        if game_over?(@computer_cruiser, @computer_submarine)
-          puts "You won!"
-          break
-        end
-        computer_take_shot
-        if game_over?(@player_cruiser, @player_submarine)
-          puts "I won!"
-          break
-        end
-      end
-      start_game
+  def game_over?(cruiser, submarine)
+    cruiser.sunk? && submarine.sunk?
+  end
+
+  def computer_take_shot
+    coordinate = nil
+    loop do
+      coordinate = @player_board.cells.keys.sample
+      break if !@player_board.cells[coordinate].fired_upon?
     end
-
-    def render_boards
-      puts "=============COMPUTER BOARD============="
-      puts @computer_board.render
-
-      puts "==============PLAYER BOARD=============="
-      puts @player_board.render(true)
-    end
-
-    def player_take_shot
-      player_shot = nil
-      loop do
-        puts "Enter the coordinate for your shot: "
-        player_shot = gets.chomp.upcase
-        break if @computer_board.valid_coordinate?(player_shot) && !@computer_board.cells[player_shot].fired_upon?
-        puts "Those are invalid coordinates. Please try again."
-      end
-      @computer_board.cells[player_shot].fire_upon
-    end
-
-    def game_over?(cruiser, submarine)
-      cruiser.sunk? && submarine.sunk?
-    end
-
-    def computer_take_shot
-      coordinate = nil
-      loop do
-        coordinate = @player_board.cells.keys.sample
-        break if !@player_board.cells[coordinate].fired_upon?
-      end
-      @player_board.cells[coordinate].fire_upon
-    end
-
+    @player_board.cells[coordinate].fire_upon
+  end
 end
