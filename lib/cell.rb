@@ -30,16 +30,16 @@ attr_reader :coordinate,
   end
 
   def render(view = false)
-    if view == true && empty? == false
-      "S"
-    elsif @fired_upon == false
-      "."
-    elsif empty? == true
-      "M"
-    elsif @ship.sunk? == true
+    if @ship != nil && @ship.sunk? == true
       "X"
-    else
+    elsif fired_upon? == true && empty? == false
       "H"
+    elsif fired_upon? == true && empty? == true
+      "M"
+    elsif view == true && empty? == false
+      "S"
+    else
+      "."
     end
   end
 end

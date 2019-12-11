@@ -15,16 +15,17 @@ class Game
     @player_submarine = Ship.new("Submarine", 2)
   end
 
-  def opening_message
+  def start_game
     puts "Welcome to BATTLESHIP \n" +
     "Enter p to play. Enter q to quit."
-  end
 
-  def welcome
     game_start = gets.chomp.downcase
       if game_start == "p"
         puts "Let's Play!"
+        computer_setup(@computer_cruiser)
+        computer_setup(@computer_submarine)
         player_instructions
+        run_game
       elsif game_start ==  "q"
         puts "OK BYE"
       else
@@ -80,11 +81,21 @@ class Game
       end
     end
 
-    def start_game
+    def run_game
       loop do
         render_boards
-        break if game_over?
+        player_take_shot
+        if game_over?(@computer_cruiser, @computer_submarine)
+          puts "You won!"
+          break
+        end
+        computer_take_shot
+        if game_over?(@player_cruiser, @player_submarine)
+          puts "I won!"
+          break
+        end
       end
+      start_game
     end
 
     def render_boards
@@ -96,28 +107,27 @@ class Game
     end
 
     def player_take_shot
+      player_shot = nil
       loop do
         puts "Enter the coordinate for your shot: "
         player_shot = gets.chomp.upcase
-        break if @computer_board.valid_coordinate?(player_shot) && @computer_board.cells[player_shot].fired_upon?
+        break if @computer_board.valid_coordinate?(player_shot) && !@computer_board.cells[player_shot].fired_upon?
         puts "Those are invalid coordinates. Please try again."
       end
       @computer_board.cells[player_shot].fire_upon
     end
 
-    def game_over?
-      true
+    def game_over?(cruiser, submarine)
+      cruiser.sunk? && submarine.sunk?
     end
 
     def computer_take_shot
-      
+      coordinate = nil
+      loop do
+        coordinate = @player_board.cells.keys.sample
+        break if !@player_board.cells[coordinate].fired_upon?
+      end
+      @player_board.cells[coordinate].fire_upon
     end
-
-
-
-
-
-
-
 
 end

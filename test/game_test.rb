@@ -35,6 +35,43 @@ class GameTest < Minitest::Test
     assert_instance_of Array, @game.computer_setup(submarine)
     assert_equal 3, @game.computer_setup(cruiser).count
     assert_equal 2, @game.computer_setup(submarine).count
-    # assert_equal coordinates.first.empty?, @game.computer_setup(cruiser)
+  end
+
+  def test_computer_take_shot
+    @game.computer_take_shot
+
+    shot_count = 0
+
+    @game.player_board.cells.map do |key, cell|
+      if cell.fired_upon?
+        shot_count += 1
+      end
+    end
+
+    assert_equal 1, shot_count
+
+    @game.computer_take_shot
+
+    shot_count = 0
+
+    @game.player_board.cells.map do |key, cell|
+      if cell.fired_upon?
+        shot_count += 1
+      end
+    end
+
+    assert_equal 2, shot_count
+  end
+
+  def test_game_over
+    cruiser = Ship.new("Cruiser", 1)
+    submarine = Ship.new("Submarine", 1)
+
+    assert_equal false, @game.game_over?(cruiser,submarine)
+
+    cruiser.hit
+    submarine.hit
+
+    assert_equal true, @game.game_over?(cruiser, submarine)
   end
 end
