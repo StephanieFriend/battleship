@@ -6,7 +6,7 @@ class Game
               :player_cruiser,
               :player_submarine
 
-  def initialize
+  def initialize_new_game
     @computer_board = Board.new
     @computer_cruiser = Ship.new("Cruiser", 3)
     @computer_submarine = Ship.new("Submarine", 2)
@@ -22,6 +22,7 @@ class Game
     game_start = gets.chomp.downcase
       if game_start == "p"
         puts "Let's Play!"
+        initialize_new_game
         computer_setup(@computer_cruiser)
         computer_setup(@computer_submarine)
         player_instructions
@@ -33,18 +34,26 @@ class Game
         welcome
       end
   end
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 5200a1d3c091ad7d48161fcff295ada886b5ab6f
   def computer_setup(ship)
     coordinates = []
     loop do
       coordinates = @computer_board.cells.keys.sample(ship.length)
+<<<<<<< HEAD
       # coordinates = cells.map do |cell|
       #   cell.coordinate
       # end
+=======
+>>>>>>> 5200a1d3c091ad7d48161fcff295ada886b5ab6f
       break if  @computer_board.valid_placement?(ship, coordinates)
     end
     @computer_board.place(ship, coordinates)
   end
+<<<<<<< HEAD
 
   def player_instructions
     puts "-------------------------------------------- \n" +
@@ -56,6 +65,19 @@ class Game
     player_place_submarine
   end
 
+=======
+
+  def player_instructions
+    puts "-------------------------------------------- \n" +
+    "I have laid out my ships on the grid. \n" +
+    "You now need to lay out your two ships. \n" +
+    "The Cruiser is three units long and the Submarine is two units long."
+    puts @player_board.render(true)
+    player_place_cruiser
+    player_place_submarine
+  end
+
+>>>>>>> 5200a1d3c091ad7d48161fcff295ada886b5ab6f
   def player_place_cruiser
     puts "Enter the squares for the Cruiser (3 spaces):"
       cruiser_response = gets.chomp.upcase.split
@@ -114,6 +136,7 @@ class Game
       break if @computer_board.valid_coordinate?(player_shot) && !@computer_board.cells[player_shot].fired_upon?
       puts "Those are invalid coordinates. Please try again."
     end
+<<<<<<< HEAD
     @computer_board.cells[player_shot].fire_upon
   end
 
@@ -129,4 +152,33 @@ class Game
     end
     @player_board.cells[coordinate].fire_upon
   end
+=======
+    shot_result = @computer_board.cells[player_shot].fire_upon
+    puts shot_message(player_shot, shot_result, "Your")
+  end
+
+  def game_over?(cruiser, submarine)
+    cruiser.sunk? && submarine.sunk?
+  end
+
+  def computer_take_shot
+    coordinate = nil
+    loop do
+      coordinate = @player_board.cells.keys.sample
+      break if !@player_board.cells[coordinate].fired_upon?
+    end
+    shot_result = @player_board.cells[coordinate].fire_upon
+    puts shot_message(coordinate, shot_result, "My")
+  end
+
+  def shot_message(coordinate, result, shooter)
+    if result == true
+      result_message = "hit"
+    else
+      result_message = "miss"
+    end
+    "#{shooter} shot on #{coordinate} was a #{result_message}."
+  end
+
+>>>>>>> 5200a1d3c091ad7d48161fcff295ada886b5ab6f
 end

@@ -26,7 +26,9 @@ attr_reader :coordinate,
     @fired_upon = true
     if @ship
       @ship.hit
+      return true
     end
+    return false 
   end
 
   def render(view = false)
