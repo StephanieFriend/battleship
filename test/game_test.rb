@@ -10,13 +10,14 @@ class GameTest < Minitest::Test
 
   def setup
     @game = Game.new
+    @game.initialize_new_game
   end
 
   def test_it_exists
     assert_instance_of Game, @game
   end
 
-  def test_it_initializes
+  def test_it_initializes_new_game
     assert_instance_of Board, @game.computer_board
     assert_instance_of Ship, @game.computer_cruiser
     assert_equal "Cruiser", @game.computer_cruiser.name
@@ -73,5 +74,13 @@ class GameTest < Minitest::Test
     submarine.hit
 
     assert_equal true, @game.game_over?(cruiser, submarine)
+  end
+
+  def test_for_hit_shot
+    assert_equal "Your shot on A1 was a hit.", @game.shot_message("A1", true, "Your")
+  end
+
+  def test_for_miss_shot
+    assert_equal "Your shot on A1 was a miss.", @game.shot_message("A1", false, "Your")
   end
 end
