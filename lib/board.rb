@@ -39,10 +39,9 @@ attr_reader :cells
     if valid_placement?(ship, coordinates)
       placement = coordinates.map do |coordinate|
         @cells[coordinate].place_ship(ship)
-      # @cells[coordinate].empty = false
       end
     end
-    placement 
+    placement
   end
 
   def ship_length?(ship, coordinates)
