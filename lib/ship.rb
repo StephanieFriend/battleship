@@ -10,11 +10,17 @@ class Ship
   end
 
   def sunk?
-    if @health == 0
+    if @health <= 0 # Changed to less than or equal to handle -1 HP caused by cheat code use
       @sunk = true
+      return true
     else
       @sunk = false
+      return false
     end
+  end
+
+  def sink
+    @health = 0
   end
 
   def hit
